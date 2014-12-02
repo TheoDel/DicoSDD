@@ -23,6 +23,13 @@ public class Page {
 		else
 			return parent.getParentRacine();
 	}
+	
+	public int getIdParentRacine(){
+		if (parent == null)
+			return idPage;
+		else
+			return parent.getIdParentRacine();
+	}
 
 	public void setParent(Page parent) {
 		this.parent = parent;

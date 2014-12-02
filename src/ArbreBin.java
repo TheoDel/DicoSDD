@@ -116,6 +116,7 @@ public class ArbreBin {
 	 */
 	public ArbreBin ajoutePage(String mot, Page page){
 		int comparaison = mot.compareTo(elem); //On compare le mot du noeud à celui cherché
+		
 		if (comparaison == 0){
 			//A moins qu'on aie déjà ajouté cette page au noeud...
 			//TODO : (Cette façon de faire ne me paraît pas très élégante... ?)

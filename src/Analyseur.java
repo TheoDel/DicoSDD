@@ -4,8 +4,13 @@ import java.util.Scanner;
 
 public class Analyseur {
 	private Dictionary dic;
+	
+	/** La liste des pages à analyser*/
 	private ArrayList<Page> pages;
+	
+	/** Matrice donnant le nombre de mots en commun entre 2 pages*/
 	private int[][] motsCommuns;
+	
 	/** Nombre de mots en commun minimum nécessaire pour dire que 2 mots appartiennent au même chapitre */
 	private int k;
 
@@ -15,24 +20,24 @@ public class Analyseur {
 		motsCommuns = new int[pages.size()][pages.size()];
 		this.k = k;
 	}
-	/* TODO : On travaille ici avec des entiers pour désigner les pages, peut-être serait-il plus 
-	 * propre de travailler avec un classe Page contenant son File et son identifiant ? Cela pourrait
-	 * aussi servir pour les classes-union, au moment de rassembler les pages en chapitre.
-	 */
 
 	public void analyserPages(){
 		//Boucle sur toutes les pages :
-		for(Page f : pages) {
-			int numPageActu = f.getIdPage();
+		for(Page pageAnalysee : pages) {
+			int numPageActu = pageAnalysee.getIdPage();
 			try {
-				Scanner sc = new Scanner(f.getFichier());
-				sc.useDelimiter("[.,;:?! ']");
+				Scanner sc = new Scanner(pageAnalysee.getFichier());
+				//TODO :  séparateur a revoir (renvoie des mots vides)
+				sc.useDelimiter("[.,;:?!\n\t ']");
 				//Décompose mot par mot
+				String motCourant="";
 				while (sc.hasNext()){//tant qu'on peut lire le fichier
-					ArbreBin motDic = dic.ajoutePage(sc.next(), f); // On passe au mot suivant. On cherche si le mot appartient au dictionnaire
-
+					motCourant=sc.next().toLowerCase();
+					//System.out.println("--->\""+motCourant+"\"<---");
+					ArbreBin motDic = dic.ajoutePage(motCourant, pageAnalysee); // On passe au mot suivant. On cherche si le mot appartient au dictionnaire
+					
 					if (motDic != null){ // Dans le cas où le mot courant appartient au dictionnaire (et n'a pas encore été relevé sur cette page)
-						for (Page pageWith : motDic.getPgWith()) { //récupère les identifiants des pages contenant aussi déjà ce mot
+						for (Page pageWith : motDic.getPgWith()) { //récupère les pages contenant aussi déjà ce mot
 							int numPageCommune = pageWith.getIdPage();
 							if (numPageCommune != numPageActu){
 								++motsCommuns[(numPageActu-1)][(numPageCommune-1)]; //incrémente le nombre de mots en communs de ces 2 pages
@@ -43,6 +48,7 @@ public class Analyseur {
 								 */
 								if (motsCommuns[numPageActu-1][numPageCommune-1] >= k){
 									System.out.println("\t\tLes pages "+numPageActu+" et "+numPageCommune+" sont dans le même chapitre.");
+									pageAnalysee.setParent(pageWith);
 								}
 							}
 						}
@@ -54,7 +60,22 @@ public class Analyseur {
 			}
 		}
 		affichageMatriceMotsPartages();
+		
 		//On a ainsi dégagé un ensemble de chapitres qu'on va renvoyer d'une façon ou d'une autre
+		String texte = "";
+		int chapCourant = 0;
+		int numChapitre = 0;
+		for(Page pageAnalysee : pages) {
+			if (pageAnalysee.getIdParentRacine()!= chapCourant){
+				numChapitre++;
+				System.out.println(texte);
+				chapCourant = pageAnalysee.getIdPage();
+				texte="Chapitre "+numChapitre+ ": les pages "+chapCourant;
+			} else {
+				texte += ", "+pageAnalysee.getIdPage();
+			}
+		}
+		System.out.println(texte);
 	}
 
 	/**
