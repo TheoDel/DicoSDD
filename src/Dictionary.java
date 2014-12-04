@@ -12,14 +12,14 @@ class Dictionary {
 	//VARIABLES
 	private File f_;//fichier du dictionnaire
 	private ArrayList<String> keyWords_;//liste triée des mots clés
-	private ArbreBin keyWordsABR_;//ABR contenant les mots clés
+	private ArbreBinDico keyWordsABR_;//ABR contenant les mots clés
 
 	//CONSTRUCTEUR
 	public Dictionary (String fileName) {
 		f_ = new File(fileName);
 		keyWords_ = new ArrayList<String>();
 		readKeyWords();
-		keyWordsABR_ = new ArbreBin(keyWords_);
+		keyWordsABR_ = new ArbreBinDico(keyWords_);
 	}
 
 	//SEPARER LES MOTS CLES
@@ -39,7 +39,7 @@ class Dictionary {
 	//GETTERS
 	public File getFile() {return f_;}
 	public ArrayList<String> getKeyWords() {return keyWords_;}
-	public ArbreBin getKeyWordsABR() {return keyWordsABR_;}
+	public ArbreBinDico getKeyWordsABR() {return keyWordsABR_;}
 
 	//AFFICHER LES MOTS CLES
 	public void printKeyWords() {
@@ -56,7 +56,7 @@ class Dictionary {
 	 * @param page La page contenant le mot
 	 * @return ArbreBin du mot s'il appartient au dictionnaire et auquel il vient donc d'être ajouté. Renvoie null si le mot n'appartient pas au dictionnaire ou a déjà été trouvé pour cette page
 	 */
-	public ArbreBin ajoutePage(String mot, Page page){
+	public ArbreBinDico ajoutePage(String mot, Page page){
 		return keyWordsABR_.ajoutePage(mot, page);
 	}
 }

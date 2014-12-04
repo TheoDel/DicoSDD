@@ -7,8 +7,9 @@ class Main {
 			System.out.println("Entrez les arguments dans l'ordre : [k] [dictionnaire] [fichiers]");
 		else {
 			Dictionary dic = new Dictionary(args[1]);//crée le dictionnaire depuis le fichier
+			System.out.println("------ARBRE DU DICTIONNAIRE CONSTRUIT---------");
 			dic.printKeyABR();
-
+			
 			//Récupère les pages
 			ArrayList<Page> pages = new ArrayList<Page>();
 			int numPage = 0;
@@ -19,14 +20,15 @@ class Main {
 					pages.add(new Page(numPage, f));
 				}
 			}
-
+			
 			try {
 				//Récupère k
 				Analyseur a = new Analyseur(dic,pages,Integer.parseInt(args[0]));
 				a.analyserPages();
 			}
 			catch (Exception e) {
-				System.out.println("Erreur : Le k rentré n'est pas un entier");
+				System.out.println("L'analyseur a levé une erreur");
+				e.printStackTrace();
 				System.exit(0);
 			}
 		}

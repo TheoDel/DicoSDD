@@ -1,4 +1,5 @@
 import java.io.File;
+import java.util.ArrayList;
 
 
 public class Page {
@@ -6,15 +7,13 @@ public class Page {
 	private int idPage;
 	private File fichier;
 	private Page parent;
+	private ArrayList<String> listeMotsChapitre;
 
 	public Page(int id, File f){
 		idPage = id;
 		fichier = f;
 		parent = null;
-	}
-
-	public Page getParent() {
-		return parent;
+		listeMotsChapitre = new ArrayList<String>();
 	}
 
 	public Page getParentRacine(){
@@ -33,6 +32,7 @@ public class Page {
 
 	public void setParent(Page parent) {
 		this.parent = parent;
+		this.parent.addListeMot(listeMotsChapitre);
 	}
 
 	public int getIdPage() {
@@ -45,5 +45,29 @@ public class Page {
 
 	public File getFichier() {
 		return fichier;
+	}
+	
+	public void addListeMot(ArrayList<String> nouvListe) {
+		for (String motCourant : nouvListe){
+			if (!listeMotsChapitre.contains(motCourant)){
+				listeMotsChapitre.add(motCourant);
+			}
+		}
+	}
+	
+	public void setListeMot(ArrayList<String> nouvListe) {
+		listeMotsChapitre = nouvListe;
+	}
+	
+	public String getStringListeMotsChapitre(){
+		String liste = "";
+		for (String motcourant : listeMotsChapitre){
+			liste += motcourant + " ";
+		}
+		return liste;
+	}
+	
+	public ArrayList<String> getListeMotsChapitre(){
+		return listeMotsChapitre;
 	}
 }

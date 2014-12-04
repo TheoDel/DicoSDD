@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 import java.util.Vector;
 
-public class ArbreBin {
-	private ArbreBin sag;
-	private ArbreBin sad;
+public class ArbreBinDico {
+	private ArbreBinDico sag;
+	private ArbreBinDico sad;
 	private String elem;
 	private Vector<Page> pgWith;
 
@@ -11,7 +11,7 @@ public class ArbreBin {
 	 * Crée un arbre sans fils contenant un seul élément
 	 * @param e l'élément de l'arbre
 	 */
-	public ArbreBin(String e){
+	public ArbreBinDico(String e){
 		elem = e;
 		sag = null;
 		sad = null;
@@ -22,7 +22,7 @@ public class ArbreBin {
 	 * Crée l'arbre binaire d'une arrayList de T (s'ils sont ordonnés, c'est un ABR).
 	 * @param l liste de T pour construire l'arbre binaire
 	 */
-	public ArbreBin(ArrayList<String> l){
+	public ArbreBinDico(ArrayList<String> l){
 		pgWith = new Vector<Page>();
 		if (l.size() == 1) {
 			elem = l.get(0);
@@ -32,7 +32,7 @@ public class ArbreBin {
 
 		else if (l.size() == 2){
 			elem =  l.get(1);
-			sag = new ArbreBin(l.get(0));
+			sag = new ArbreBinDico(l.get(0));
 			sad = null;
 		}
 
@@ -41,10 +41,10 @@ public class ArbreBin {
 			elem = l.get(l.size()/2);
 
 			//Construction du sag avec la moitié des mots à gauche de la liste
-			sag = new ArbreBin(new ArrayList<String>(l.subList(0,(l.size()/2))));
+			sag = new ArbreBinDico(new ArrayList<String>(l.subList(0,(l.size()/2))));
 
 			//Construction du sag avec la moitié des mots à droite de la liste
-			sad = new ArbreBin(new ArrayList<String>(l.subList((l.size()/2)+1, l.size())));
+			sad = new ArbreBinDico(new ArrayList<String>(l.subList((l.size()/2)+1, l.size())));
 		}
 	}
 
@@ -114,7 +114,7 @@ public class ArbreBin {
 	 * @param page La page contenant le mot
 	 * @return ArbreBin (la branche) du mot s'il appartient au dictionnaire et auquel il vient donc d'être ajouté. Renvoie null si le mot n'appartient pas au dictionnaire ou a déjà été trouvé pour cette page
 	 */
-	public ArbreBin ajoutePage(String mot, Page page){
+	public ArbreBinDico ajoutePage(String mot, Page page){
 		int comparaison = mot.compareTo(elem); //On compare le mot du noeud à celui cherché
 		
 		if (comparaison == 0){
@@ -140,4 +140,10 @@ public class ArbreBin {
 		}
 		return null;
 	}
+
+	public String getElem() {
+		return elem;
+	}
+	
+	
 }
