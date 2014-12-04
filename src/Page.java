@@ -5,6 +5,8 @@ import java.util.ArrayList;
 public class Page {
 
 	private int idPage;
+	private int idChapitre;
+
 	private File fichier;
 	private Page parent;
 	private ArrayList<String> listeMotsChapitre;
@@ -17,14 +19,14 @@ public class Page {
 	}
 
 	public Page getParentRacine(){
-		if (parent == null)
+		if (isParent())
 			return this;
 		else
 			return parent.getParentRacine();
 	}
 	
 	public int getIdParentRacine(){
-		if (parent == null)
+		if (isParent())
 			return idPage;
 		else
 			return parent.getIdParentRacine();
@@ -32,7 +34,7 @@ public class Page {
 
 	public void setParent(Page parent) {
 		this.parent = parent;
-		this.parent.addListeMot(listeMotsChapitre);
+		this.parent.fusionSansDoublonListeMot(listeMotsChapitre);
 	}
 
 	public int getIdPage() {
@@ -47,12 +49,16 @@ public class Page {
 		return fichier;
 	}
 	
-	public void addListeMot(ArrayList<String> nouvListe) {
+	public void fusionSansDoublonListeMot(ArrayList<String> nouvListe) {
 		for (String motCourant : nouvListe){
 			if (!listeMotsChapitre.contains(motCourant)){
 				listeMotsChapitre.add(motCourant);
 			}
 		}
+	}
+	
+	public void fusionListeMot(ArrayList<String> nouvListe) {
+		listeMotsChapitre.addAll(nouvListe);
 	}
 	
 	public void setListeMot(ArrayList<String> nouvListe) {
@@ -69,5 +75,21 @@ public class Page {
 	
 	public ArrayList<String> getListeMotsChapitre(){
 		return listeMotsChapitre;
+	}
+	
+	public boolean isParent(){
+		return (parent==null);
+	}
+	
+
+	public int getIdChapitre() {
+		if (isParent())
+			return this.idChapitre;
+		else
+			return parent.getIdChapitre();
+	}
+
+	public void setIdChapitre(int idChapitre) {
+		this.idChapitre = idChapitre;
 	}
 }
