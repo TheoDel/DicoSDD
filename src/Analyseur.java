@@ -81,6 +81,9 @@ public class Analyseur {
 					}
 				}
 				sc.close();
+				
+				
+				
 			} catch (FileNotFoundException e) {
 				System.out.println("Erreur : Fichier inexistant");
 			}
@@ -109,20 +112,7 @@ public class Analyseur {
 			System.out.println("Les pages n'ont pas été analysées");
 			return;
 		}
-		//On a ainsi dégagé un ensemble de chapitres qu'on va renvoyer d'une façon ou d'une autre
-		/*
-				String textechapitres = "";
-				String textepages = "";
-				
-				for(Page pageAnalysee : pages) {
-					if (pageAnalysee.isParent()){
-						textechapitres += ("Chapitre "+ pageAnalysee.getIdChapitre()+ "\n - Mots du chapitre : "+ pageAnalysee.getListeMotsChapitre()+"\n");
-					}
-					textepages+= "Page " + pageAnalysee.getIdPage()+ " appartient au chapitre "+pageAnalysee.getIdChapitre()+"\n";
-					
-				}
-				System.out.println(textechapitres+textepages);*/
-		
+
 		for(Chapitre chapitreAnalyse : chapitres){
 			System.out.println(chapitreAnalyse);
 		}

@@ -9,32 +9,53 @@ public class Page {
 
 	private File fichier;
 	private Page parent;
-	private ArrayList<String> listeMotsChapitre;
+	private ArrayList<String> listeMotsClesChapitre;
 
 	public Page(int id, File f){
 		idPage = id;
 		fichier = f;
 		parent = null;
-		listeMotsChapitre = new ArrayList<String>();
+		listeMotsClesChapitre = new ArrayList<String>();
 	}
-
+	
+	/**
+	 * Ajoute tous les mots-clés de nouvListe qu'elle ne contient pas déjà
+	 * @param nouvListe
+	 */
+	public void fusionSansDoublonListeMot(ArrayList<String> nouvListe) {
+		for (String motCourant : nouvListe){
+			if (!listeMotsClesChapitre.contains(motCourant)){
+				listeMotsClesChapitre.add(motCourant);
+			}
+		}
+	}
+	
+	/**
+	 * Fusionne la liste de mots-clés de la page avec nouvListe
+	 * @param nouvListe
+	 */
+	public void fusionListeMot(ArrayList<String> nouvListe) {
+		listeMotsClesChapitre.addAll(nouvListe);
+	}
+	
+	public boolean isParent(){
+		return (parent==null);
+	}
+	
+	public void setIdChapitre(int idChapitre) {
+		this.idChapitre = idChapitre;
+	}
+	
+	public void setParent(Page parent) {
+		this.parent = parent;
+		this.parent.fusionSansDoublonListeMot(listeMotsClesChapitre);
+	}
+	
 	public Page getParentRacine(){
 		if (isParent())
 			return this;
 		else
 			return parent.getParentRacine();
-	}
-	
-	public int getIdParentRacine(){
-		if (isParent())
-			return idPage;
-		else
-			return parent.getIdParentRacine();
-	}
-
-	public void setParent(Page parent) {
-		this.parent = parent;
-		this.parent.fusionSansDoublonListeMot(listeMotsChapitre);
 	}
 
 	public int getIdPage() {
@@ -49,47 +70,14 @@ public class Page {
 		return fichier;
 	}
 	
-	public void fusionSansDoublonListeMot(ArrayList<String> nouvListe) {
-		for (String motCourant : nouvListe){
-			if (!listeMotsChapitre.contains(motCourant)){
-				listeMotsChapitre.add(motCourant);
-			}
-		}
-	}
-	
-	public void fusionListeMot(ArrayList<String> nouvListe) {
-		listeMotsChapitre.addAll(nouvListe);
-	}
-	
-	public void setListeMot(ArrayList<String> nouvListe) {
-		listeMotsChapitre = nouvListe;
-	}
-	
-	public String getStringListeMotsChapitre(){
-		String liste = "";
-		for (String motcourant : listeMotsChapitre){
-			liste += motcourant + " ";
-		}
-		return liste;
-	}
-	
 	public ArrayList<String> getListeMotsChapitre(){
-		return listeMotsChapitre;
-	}
+		return listeMotsClesChapitre;
+	}	
 	
-	public boolean isParent(){
-		return (parent==null);
-	}
-	
-
 	public int getIdChapitre() {
 		if (isParent())
 			return this.idChapitre;
 		else
 			return parent.getIdChapitre();
-	}
-
-	public void setIdChapitre(int idChapitre) {
-		this.idChapitre = idChapitre;
 	}
 }
