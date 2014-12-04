@@ -38,8 +38,7 @@ public class Analyseur {
 			
 			try {
 				Scanner sc = new Scanner(pageAnalysee.getFichier());
-				//TODO :  séparateur a revoir (renvoie des mots vides)
-				sc.useDelimiter("[.,;:?!\n\t\\s']");
+				sc.useDelimiter("[.,;:?!\n\t\\s']+");
 				//Décompose mot par mot
 				String motCourant="";
 				while (sc.hasNext()){//tant qu'on peut lire le fichier
@@ -64,8 +63,8 @@ public class Analyseur {
 									pageAnalysee.setParent(pageWith.getParentRacine());
 									
 									//Et on ajoute les mots du chapitre à la page courante
-									//pageAnalysee.fusionListeMot(couplesPages.get(numPageCommune-1).getMotsCommuns());
-									//System.out.println("\t\t"+pageAnalysee.getListeMotsChapitre());
+									pageAnalysee.fusionListeMot(couplesPages.get(numPageCommune-1).getMotsCommuns());
+									System.out.println("\t\t"+pageAnalysee.getListeMotsChapitre());
 									
 									/* On pourrait aussi directement fusionner les mots à la page représentante de la classe 
 									 * (la page représentante du chapitre, donc) en supprimant les doublons, 
@@ -73,7 +72,7 @@ public class Analyseur {
 									 * de cette boucle car l'opération est couteuse. Pour tester, il faut décomenter la
 									 * ligne suivante et commenter les deux opérations précédentes.
 									 */
-									pageAnalysee.getParentRacine().fusionSansDoublonListeMot(couplesPages.get(numPageCommune-1).getMotsCommuns());
+									//pageAnalysee.getParentRacine().fusionSansDoublonListeMot(couplesPages.get(numPageCommune-1).getMotsCommuns());
 									
 								}
 							}
